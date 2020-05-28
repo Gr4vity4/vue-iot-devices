@@ -7,30 +7,30 @@
           <div>
             <div class="field">
               <label for="">Host</label>
-              <input type="text" class="input">
+              <input type="text" class="input" ref="hostInput">
             </div>
             <div class="field">
               <label for="">Port</label>
-              <input type="text" class="input">
+              <input type="text" class="input" ref="portInput">
             </div>
             <div class="field">
               <label for="">ClientID</label>
-              <input type="text" class="input">
+              <input type="text" class="input" ref="clientIdInput">
             </div>
             <div class="field">
               <label for="">Username</label>
-              <input type="text" class="input">
+              <input type="text" class="input" ref="usernameInput">
             </div>
             <div class="field">
               <label for="">Password</label>
-              <input type="text" class="input">
+              <input type="text" class="input" ref="passwordInput">
             </div>
             <div class="field">
               <label for="">Topic</label>
-              <input type="text" class="input">
+              <input type="text" class="input" ref="topicInput">
             </div>
             <div class="field" style="padding-top: 10px">
-              <button class="button is-success w-full">Connect</button>
+              <button type="button" class="button is-success w-full" @click="mqttConnect">Connect</button>
             </div>
           </div>
         </div>
@@ -41,7 +41,20 @@
 
 <script>
   export default {
-    name: 'Sidebar'
+    name: 'Sidebar',
+    methods: {
+      mqttConnect() {
+        console.log('mqttConnect clicked')
+        this.$store.dispatch('mqttConfig', {
+          host: this.$refs.hostInput.value,
+          port: this.$refs.portInput.value,
+          clientId: this.$refs.clientIdInput.value,
+          username: this.$refs.usernameInput.value,
+          password: this.$refs.passwordInput.value,
+          topic: this.$refs.topicInput.value
+        });
+      }
+    }
   }
 
 </script>
