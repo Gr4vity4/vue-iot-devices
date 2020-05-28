@@ -7,11 +7,11 @@
           <div>
             <div class="field">
               <label for="">Host</label>
-              <input type="text" class="input" ref="hostInput">
+              <input type="text" class="input" ref="hostInput" value="mqtt.cmmc.io">
             </div>
             <div class="field">
               <label for="">Port</label>
-              <input type="text" class="input" ref="portInput">
+              <input type="text" class="input" ref="portInput" value="9001">
             </div>
             <div class="field">
               <label for="">ClientID</label>
@@ -27,7 +27,7 @@
             </div>
             <div class="field">
               <label for="">Topic</label>
-              <input type="text" class="input" ref="topicInput">
+              <input type="text" class="input" ref="topicInput" value="CMMC/#">
             </div>
             <div class="field" style="padding-top: 10px">
               <button type="button" class="button is-success w-full" @click="mqttConnect">Connect</button>
@@ -42,6 +42,7 @@
 <script>
   export default {
     name: 'Sidebar',
+    data() {},
     methods: {
       mqttConnect() {
         console.log('mqttConnect clicked')
@@ -54,6 +55,9 @@
           topic: this.$refs.topicInput.value
         });
       }
+    },
+    mounted() {
+      this.$refs.clientIdInput.value = `CMMC_${Math.random().toString(36).slice(-8)}`
     }
   }
 
