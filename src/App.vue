@@ -1,28 +1,44 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="container" style="padding: 10px 0 60px 0">
+      <Navbar />
+      <div class="columns" style="padding-top: 10px">
+        <div class="column is-one-quarter">
+          <Sidebar />
+        </div>
+        <div class="column">
+          <Content />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  import Navbar from './components/Navbar'
+  import Sidebar from './components/Sidebar'
+  import Content from './components/Content'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  export default {
+    name: 'App',
+    components: {
+      Navbar,
+      Sidebar,
+      Content
+    }
   }
-}
+
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  @import '~bulma/css/bulma.css';
+
+  .bold, label, button {
+    font-weight: bold;
+  }
+
+  .w-full {
+    width: 100%;
+  }
+
 </style>
