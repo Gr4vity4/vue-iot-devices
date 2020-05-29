@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-content">
         <div class="content">
-          <p class="bold has-text-danger">Waiting for connection</p>
+          <p :class="['bold', mqttStatus ? 'has-text-success' : 'has-text-danger']" v-text="mqttTextStatus"></p>
           <div>
             <div class="field">
               <label for="">Host</label>
@@ -30,7 +30,8 @@
               <input type="text" class="input" ref="topicInput" value="CMMC/#">
             </div>
             <div class="field" style="padding-top: 10px">
-              <button type="button" class="button is-success w-full" @click="mqttConnect">Connect</button>
+              <button type="button" :class="['button w-full', mqttStatus ? 'is-danger' : 'is-success']"
+                @click="mqttConnect" v-text="buttonText"></button>
             </div>
           </div>
         </div>
@@ -47,39 +48,49 @@
 
   export default {
     name: 'Sidebar',
+    data() {
+      return {
+        mqttTextStatus: 'Waiting for connection',
+        mqttStatus: false,
+        buttonText: 'Connect'
+      }
+    },
     methods: {
       mqttConnect() {
-        console.log('mqttConnect clicked')
-
-        this.$store.dispatch('mqttConfig', {
-          host: this.$refs.hostInput.value,
-          port: parseInt(this.$refs.portInput.value),
-          clientId: this.$refs.clientIdInput.value,
-          username: this.$refs.usernameInput.value,
-          password: this.$refs.passwordInput.value,
-          topic: this.$refs.topicInput.value
-        });
-
+        if (this.mqttStatus) {
+          window.location.reload();
+        } else {
+          this.$store.dispatch('mqttConfig', {
+            host: this.$refs.hostInput.value,
+            port: parseInt(this.$refs.portInput.value),
+            clientId: this.$refs.clientIdInput.value,
+            username: this.$refs.usernameInput.value,
+            password: this.$refs.passwordInput.value,
+            topic: this.$refs.topicInput.value
+          });
+        }
       }
     },
     mounted() {
       this.$refs.clientIdInput.value = `CMMC_${Math.random().toString(36).slice(-8)}`
     },
     computed: {
-      ...mapState(['mqttConfig'])
+      ...mapState(['mqttConfig', 'mqttConnected'])
     },
     watch: {
       mqttConfig: function (newValue) {
-        const client = new Paho.MQTT.Client(newValue.host, newValue.port, '', newValue.clientId)
+        const then = this
+        window.client = new Paho.MQTT.Client(newValue.host, newValue.port, '', newValue.clientId)
 
-        client.onConnectionLost = onConnectionLost
-        client.onMessageArrived = onMessageArrived
-        client.connect({
+        window.client.onConnectionLost = onConnectionLost
+        window.client.onMessageArrived = onMessageArrived
+        window.client.connect({
           onSuccess: onConnect
         })
 
         function onConnect() {
-          client.subscribe(newValue.topic)
+          then.$store.dispatch('mqttConnected', true)
+          window.client.subscribe(newValue.topic)
         }
 
         function onConnectionLost(responseObject) {
@@ -94,6 +105,13 @@
           if (data.info !== undefined) {
             console.log(data.info)
           }
+        }
+      },
+      mqttConnected: function (newValue) {
+        if (newValue) {
+          this.mqttStatus = true
+          this.mqttTextStatus = 'Connected'
+          this.buttonText = 'Disconnect'
         }
       }
     }
