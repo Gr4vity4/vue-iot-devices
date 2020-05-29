@@ -42,7 +42,6 @@
 <script>
   export default {
     name: 'Sidebar',
-    data() {},
     methods: {
       mqttConnect() {
         console.log('mqttConnect clicked')
