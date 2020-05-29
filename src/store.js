@@ -6,17 +6,17 @@ export default {
       clientId: '',
       username: '',
       password: '',
-      topic: ''
+      topic: '',
     },
-    mqttConnected: false
+    mqttConnected: false,
   },
   mutations: {
     mqttConfig(state, data) {
       state.mqttConfig = data;
     },
     mqttConnected(state, data) {
-      state.mqttConnected = data
-    }
+      state.mqttConnected = data;
+    },
   },
   actions: {
     mqttConfig(context, data) {
@@ -25,6 +25,6 @@ export default {
     },
     mqttConnected(context, data) {
       context.commit('mqttConnected', data);
-    }
+    },
   },
 };
