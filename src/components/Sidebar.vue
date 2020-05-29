@@ -118,6 +118,7 @@ export default {
         if (data.info !== undefined) {
           // eslint-disable-next-line no-console
           console.log(data.info);
+          then.$store.dispatch('devices', data);
         }
       }
 

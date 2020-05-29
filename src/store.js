@@ -1,4 +1,6 @@
 /* eslint-disable no-param-reassign */
+import _ from 'lodash';
+
 export default {
   state: {
     mqttConfig: {
@@ -10,6 +12,7 @@ export default {
       topic: '',
     },
     mqttConnected: false,
+    devices: [],
   },
   mutations: {
     mqttConfig(state, data) {
@@ -18,6 +21,12 @@ export default {
     mqttConnected(state, data) {
       state.mqttConnected = data;
     },
+    devices(state, data) {
+      let lists = state.devices;
+      lists.push(data);
+      lists = _.uniqBy(lists, (device) => device.info.client_id);
+      state.devices = lists;
+    },
   },
   actions: {
     mqttConfig(context, data) {
@@ -25,6 +34,9 @@ export default {
     },
     mqttConnected(context, data) {
       context.commit('mqttConnected', data);
+    },
+    devices(context, data) {
+      context.commit('devices', data);
     },
   },
 };

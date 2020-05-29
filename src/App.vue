@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import Navbar from './components/Navbar';
-import Sidebar from './components/Sidebar';
-import Content from './components/Content';
+import Navbar from './components/Navbar.vue';
+import Sidebar from './components/Sidebar.vue';
+import Content from './components/Content.vue';
 
 export default {
   name: 'App',
@@ -38,6 +38,7 @@ export default {
 
 <style>
   @import '~bulma/css/bulma.css';
+  @import '~@fortawesome/fontawesome-free/css/all.css';
 
   .bold, label, button {
     font-weight: bold;
@@ -47,4 +48,7 @@ export default {
     width: 100%;
   }
 
+  .no-radius {
+    border-radius: 0;
+  }
 </style>

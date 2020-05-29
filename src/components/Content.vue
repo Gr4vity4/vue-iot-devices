@@ -1,19 +1,17 @@
 <template>
   <div>
-    <div class="card">
-      <div class="card-content">
-        <div
-          class="content"
-          style="min-height: 85vh"
-        />
-      </div>
-    </div>
+    <DeviceLists />
   </div>
 </template>
 
 <script>
+import DeviceLists from './DeviceLists.vue';
+
 export default {
   name: 'Content',
+  components: {
+    DeviceLists,
+  },
 };
 
 </script>
