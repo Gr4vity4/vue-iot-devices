@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 export default {
   state: {
     mqttConfig: {
@@ -20,7 +21,6 @@ export default {
   },
   actions: {
     mqttConfig(context, data) {
-      console.log('Incoming data', data);
       context.commit('mqttConfig', data);
     },
     mqttConnected(context, data) {

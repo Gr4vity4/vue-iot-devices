@@ -92,6 +92,49 @@ export default {
       buttonText: 'Connect',
     };
   },
+  computed: {
+    ...mapState(['mqttConfig', 'mqttConnected']),
+  },
+  watch: {
+    mqttConfig(newValue) {
+      const then = this;
+      window.client = new Paho.MQTT.Client(newValue.host, newValue.port, '', newValue.clientId);
+
+      function onConnect() {
+        then.$store.dispatch('mqttConnected', true);
+        window.client.subscribe(newValue.topic);
+      }
+
+      function onConnectionLost(responseObject) {
+        if (responseObject.errorCode !== 0) {
+          // eslint-disable-next-line no-console
+          console.log(`onConnectionLost:${responseObject.errorMessage}`);
+        }
+      }
+
+      function onMessageArrived(message) {
+        const data = JSON.parse(message.payloadString);
+
+        if (data.info !== undefined) {
+          // eslint-disable-next-line no-console
+          console.log(data.info);
+        }
+      }
+
+      window.client.onConnectionLost = onConnectionLost;
+      window.client.onMessageArrived = onMessageArrived;
+      window.client.connect({
+        onSuccess: onConnect,
+      });
+    },
+    mqttConnected(newValue) {
+      if (newValue) {
+        this.mqttStatus = true;
+        this.mqttTextStatus = 'Connected';
+        this.buttonText = 'Disconnect';
+      }
+    },
+  },
   mounted() {
     this.$refs.clientIdInput.value = `CMMC_${Math.random().toString(36).slice(-8)}`;
   },
@@ -102,53 +145,12 @@ export default {
       } else {
         this.$store.dispatch('mqttConfig', {
           host: this.$refs.hostInput.value,
-          port: parseInt(this.$refs.portInput.value),
+          port: Number(this.$refs.portInput.value),
           clientId: this.$refs.clientIdInput.value,
           username: this.$refs.usernameInput.value,
           password: this.$refs.passwordInput.value,
           topic: this.$refs.topicInput.value,
         });
-      }
-    },
-  },
-  computed: {
-    ...mapState(['mqttConfig', 'mqttConnected']),
-  },
-  watch: {
-    mqttConfig(newValue) {
-      const then = this;
-      window.client = new Paho.MQTT.Client(newValue.host, newValue.port, '', newValue.clientId);
-
-      window.client.onConnectionLost = onConnectionLost;
-      window.client.onMessageArrived = onMessageArrived;
-      window.client.connect({
-        onSuccess: onConnect,
-      });
-
-      function onConnect() {
-        then.$store.dispatch('mqttConnected', true);
-        window.client.subscribe(newValue.topic);
-      }
-
-      function onConnectionLost(responseObject) {
-        if (responseObject.errorCode !== 0) {
-          console.log(`onConnectionLost:${responseObject.errorMessage}`);
-        }
-      }
-
-      function onMessageArrived(message) {
-        const data = JSON.parse(message.payloadString);
-
-        if (data.info !== undefined) {
-          console.log(data.info);
-        }
-      }
-    },
-    mqttConnected(newValue) {
-      if (newValue) {
-        this.mqttStatus = true;
-        this.mqttTextStatus = 'Connected';
-        this.buttonText = 'Disconnect';
       }
     },
   },
