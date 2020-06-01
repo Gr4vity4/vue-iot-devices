@@ -50,6 +50,7 @@
         <button
           type="button"
           class="button is-success"
+          @click="sliderControl()"
           v-text="`Send`"
         />
       </div>
@@ -101,6 +102,9 @@ export default {
   methods: {
     switchControl(value) {
       window.client.publish(this.prefix, value);
+    },
+    sliderControl() {
+      window.client.publish(this.prefix, String(this.sliderValue));
     },
   },
 };
