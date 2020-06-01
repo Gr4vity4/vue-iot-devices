@@ -24,11 +24,13 @@
         <button
           type="button"
           class="button is-success btn-switch"
+          @click="switchControl(`ON`)"
           v-text="`ON`"
         />
         <button
           type="button"
           class="button is-danger btn-switch"
+          @click="switchControl(`OFF`)"
           v-text="`OFF`"
         />
       </div>
@@ -94,6 +96,11 @@ export default {
     deviceInfo(newValue) {
       this.data = newValue;
       this.prefix = `${newValue.info.prefix}$/command`;
+    },
+  },
+  methods: {
+    switchControl(value) {
+      window.client.publish(this.prefix, value);
     },
   },
 };

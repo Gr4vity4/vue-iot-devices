@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 <template>
   <div>
     <div class="card">
@@ -87,7 +88,7 @@
 import {
   mapState,
 } from 'vuex';
-import Paho from 'paho-mqtt/mqttws31';
+import mqtt from 'mqtt';
 
 export default {
   name: 'Sidebar',
@@ -104,34 +105,33 @@ export default {
   watch: {
     mqttConfig(newValue) {
       const then = this;
-      window.client = new Paho.MQTT.Client(newValue.host, newValue.port, '', newValue.clientId);
 
-      function onConnect() {
+      const options = {
+        clientId: newValue.clientId,
+        clean: true,
+        port: newValue.port,
+      };
+
+      window.client = mqtt.connect(`mqtt://${newValue.host}`, options);
+
+      window.client.on('connect', () => {
+        console.log('MQTT Connected.');
         then.$store.dispatch('mqttConnected', true);
         window.client.subscribe(newValue.topic);
-      }
+      });
 
-      function onConnectionLost(responseObject) {
-        if (responseObject.errorCode !== 0) {
-          // eslint-disable-next-line no-console
-          console.log(`onConnectionLost:${responseObject.errorMessage}`);
+      window.client.on('message', (topic, message) => {
+        if (typeof message === 'object') {
+          try {
+            const data = JSON.parse(message);
+            if (data.info !== undefined) {
+              console.log(data.info);
+              then.$store.dispatch('devices', data);
+            }
+          } catch (error) {
+            // console.error(error);
+          }
         }
-      }
-
-      function onMessageArrived(message) {
-        const data = JSON.parse(message.payloadString);
-
-        if (data.info !== undefined) {
-          // eslint-disable-next-line no-console
-          console.log(data.info);
-          then.$store.dispatch('devices', data);
-        }
-      }
-
-      window.client.onConnectionLost = onConnectionLost;
-      window.client.onMessageArrived = onMessageArrived;
-      window.client.connect({
-        onSuccess: onConnect,
       });
     },
     mqttConnected(newValue) {
