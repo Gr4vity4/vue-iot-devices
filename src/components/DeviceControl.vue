@@ -41,7 +41,7 @@
       <div class="field">
         <vue-slider
           v-model="sliderValue"
-          max="255"
+          v-bind="sliderOptions"
         />
       </div>
       <div class="field">
@@ -84,6 +84,9 @@ export default {
       data: {},
       prefix: '',
       sliderValue: 0,
+      sliderOptions: {
+        max: 255,
+      },
     };
   },
   computed: { ...mapState(['deviceInfo']) },
