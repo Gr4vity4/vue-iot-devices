@@ -90,7 +90,7 @@ export default {
   watch: {
     deviceInfo(newValue) {
       this.data = newValue;
-      this.prefix = newValue.info.prefix;
+      this.prefix = `${newValue.info.prefix}$/command`;
     },
   },
 };
