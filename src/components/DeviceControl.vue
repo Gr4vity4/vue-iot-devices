@@ -13,7 +13,7 @@
       <tbody>
         <tr
           v-for="(value, propertyName, index) in data['info']"
-          :key="`${propertyName}-${index}`"
+          :key="index"
         >
           <td v-text="propertyName" />
           <td v-text="value" />
@@ -21,7 +21,7 @@
 
         <tr
           v-for="(value, propertyName, index) in data['d']"
-          :key="`${propertyName}-${index}`"
+          :key="index"
         >
           <td v-text="propertyName" />
           <td v-text="value" />
@@ -34,7 +34,7 @@
 import { mapState } from 'vuex';
 
 export default {
-  name: 'DeviceInfo',
+  name: 'DeviceControl',
   data() {
     return {
       data: {},

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      :class="['modal', showModal && 'is-active']"
+      :class="['modal', showInfoModal && 'is-active']"
     >
       <div class="modal-background" />
       <div class="modal-content">
@@ -13,7 +13,7 @@
                 type="button"
                 class="button is-danger is-light"
                 style="margin-top: 20px"
-                @click="showModal = false"
+                @click="showInfoModal = false"
               >
                 Close
               </button>
@@ -24,7 +24,7 @@
       <button
         class="modal-close is-large"
         aria-label="close"
-        @click="showModal = false"
+        @click="showInfoModal = false"
       />
     </div>
     <div
@@ -98,7 +98,8 @@ export default {
   data() {
     return {
       lists: [],
-      showModal: false,
+      showControlModal: false,
+      showInfoModal: false,
     };
   },
   computed: {
@@ -112,7 +113,7 @@ export default {
   methods: {
     fetchDeviceInfo(device) {
       this.$store.dispatch('deviceInfo', device);
-      this.showModal = true;
+      this.showInfoModal = true;
     },
   },
 };
