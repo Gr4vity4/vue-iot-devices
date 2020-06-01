@@ -77,6 +77,12 @@
   </div>
 </template>
 
+<style scoped>
+  input {
+    margin-top: 6px !important;
+  }
+</style>
+
 <script>
 import {
   mapState,
