@@ -43,18 +43,6 @@
                 class="card-header-title has-text-white"
                 v-text="device.d.myName"
               />
-              <a
-                href="#"
-                class="card-header-icon"
-                aria-label="more options"
-              >
-                <span class="icon">
-                  <i
-                    class="fas fa-angle-down"
-                    aria-hidden="true"
-                  />
-                </span>
-              </a>
             </header>
             <div class="card-content">
               <div class="content">
