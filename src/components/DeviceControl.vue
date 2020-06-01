@@ -117,7 +117,11 @@ export default {
   },
   data() {
     return {
-      data: {},
+      data: {
+        info: {
+          prefix: '',
+        },
+      },
       prefix: '',
       sliderValue: 0,
       sliderOptions: {
