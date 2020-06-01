@@ -13,6 +13,7 @@ export default {
     },
     mqttConnected: false,
     devices: [],
+    deviceInfo: {},
   },
   mutations: {
     mqttConfig(state, data) {
@@ -27,6 +28,9 @@ export default {
       lists = _.uniqBy(lists, (device) => device.info.client_id);
       state.devices = lists;
     },
+    deviceInfo(state, data) {
+      state.deviceInfo = data;
+    },
   },
   actions: {
     mqttConfig(context, data) {
@@ -37,6 +41,9 @@ export default {
     },
     devices(context, data) {
       context.commit('devices', data);
+    },
+    deviceInfo(context, data) {
+      context.commit('deviceInfo', data);
     },
   },
 };

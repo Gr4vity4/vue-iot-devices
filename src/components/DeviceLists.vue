@@ -1,6 +1,33 @@
 <template>
   <div>
     <div
+      :class="['modal', showModal && 'is-active']"
+    >
+      <div class="modal-background" />
+      <div class="modal-content">
+        <div class="card">
+          <div class="card-content">
+            <device-info />
+            <div class="has-text-right">
+              <button
+                type="button"
+                class="button is-danger is-light"
+                style="margin-top: 20px"
+                @click="showModal = false"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="modal-close is-large"
+        aria-label="close"
+        @click="showModal = false"
+      />
+    </div>
+    <div
       v-for="(devices, index) in lists"
       :key="index"
     >
@@ -45,6 +72,7 @@
               <button
                 type="button"
                 class="button is-info no-radius"
+                @click="fetchDeviceInfo(device)"
               >
                 <i
                   class="fas fa-info-circle"
@@ -62,12 +90,17 @@
 <script>
 import _ from 'lodash';
 import { mapState } from 'vuex';
+import DeviceInfo from './DeviceInfo.vue';
 
 export default {
   name: 'DeviceLists',
+  components: {
+    'device-info': DeviceInfo,
+  },
   data() {
     return {
       lists: [],
+      showModal: false,
     };
   },
   computed: {
@@ -76,6 +109,12 @@ export default {
   watch: {
     devices(newValue) {
       this.lists = _.chunk(newValue, 3);
+    },
+  },
+  methods: {
+    fetchDeviceInfo(device) {
+      this.$store.dispatch('deviceInfo', device);
+      this.showModal = true;
     },
   },
 };
