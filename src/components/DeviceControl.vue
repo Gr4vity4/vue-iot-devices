@@ -35,7 +35,7 @@
     <!-- Slide Control -->
     <div class="group">
       <div class="field">
-        <label for="">Slider Control</label>
+        <label for="">Slider Control <span class="has-text-success">(Degree)</span></label>
       </div>
       <div class="field">
         <input

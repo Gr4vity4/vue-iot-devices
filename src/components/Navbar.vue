@@ -10,7 +10,13 @@
         href="https://bulma.io"
       >
         <img
-          src="https://bulma.io/images/bulma-logo.png"
+          src="@/assets/cmmc-logo.png"
+          width="112"
+          height="28"
+          style="margin-right: 20px"
+        >
+        <img
+          src="@/assets/makerasia-logo.png"
           width="112"
           height="28"
         >
