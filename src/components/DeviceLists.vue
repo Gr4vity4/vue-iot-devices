@@ -55,8 +55,18 @@
             </div>
             <footer
               class="card-footer is-flex"
-              style="justify-content: flex-end"
+              style="justify-content: space-between; border: 0"
             >
+              <button
+                type="button"
+                class="button is-success no-radius"
+              >
+                <i
+                  class="fas fa-cogs"
+                  style="margin-right: 5px"
+                />
+                Control
+              </button>
               <button
                 type="button"
                 class="button is-info no-radius"
