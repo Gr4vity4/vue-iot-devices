@@ -14,6 +14,7 @@
     "lodash": "^4.17.15",
     "paho-mqtt": "https://github.com/cmmakerclub/paho-mqtt.git",
     "vue": "^2.6.11",
+    "vue-slider-component": "^3.1.5",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

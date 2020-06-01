@@ -1,49 +1,96 @@
 <template>
   <div>
     <p class="title is-4">
-      Device Info
+      Device Control
     </p>
-    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-      <thead>
-        <tr>
-          <th>key</th>
-          <th>value</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(value, propertyName, index) in data['info']"
-          :key="index"
+    <!-- Destination Topic -->
+    <div class="group">
+      <div class="field">
+        <label for="">Destination Topic</label>
+        <input
+          :value="prefix"
+          class="input"
+          type="text"
+          placeholder="Destination Topic"
         >
-          <td v-text="propertyName" />
-          <td v-text="value" />
-        </tr>
-
-        <tr
-          v-for="(value, propertyName, index) in data['d']"
-          :key="index"
-        >
-          <td v-text="propertyName" />
-          <td v-text="value" />
-        </tr>
-      </tbody>
-    </table>
+      </div>
+    </div>
+    <!-- Switch Control -->
+    <div class="group">
+      <div class="field">
+        <label for="">Switch Control</label>
+      </div>
+      <div class="field">
+        <button
+          type="button"
+          class="button is-success btn-switch"
+          v-text="`ON`"
+        />
+        <button
+          type="button"
+          class="button is-danger btn-switch"
+          v-text="`OFF`"
+        />
+      </div>
+    </div>
+    <!-- Slide Control -->
+    <div class="group">
+      <div class="field">
+        <label for="">Slider Control</label>
+      </div>
+      <div class="field">
+        <vue-slider
+          v-model="sliderValue"
+          max="255"
+        />
+      </div>
+      <div class="field">
+        <button
+          type="button"
+          class="button is-success"
+          v-text="`Send`"
+        />
+      </div>
+    </div>
   </div>
 </template>
+
+<style scoped>
+  input {
+    margin-top: 6px !important;
+  }
+
+  .group {
+    margin-top: 20px;
+  }
+
+  .btn-switch {
+    margin-right: 10px;
+  }
+</style>
+
 <script>
 import { mapState } from 'vuex';
+import VueSlider from 'vue-slider-component';
+import 'vue-slider-component/theme/antd.css';
 
 export default {
   name: 'DeviceControl',
+  components: {
+    'vue-slider': VueSlider,
+  },
   data() {
     return {
       data: {},
+      prefix: '',
+      sliderValue: 0,
     };
   },
   computed: { ...mapState(['deviceInfo']) },
   watch: {
     deviceInfo(newValue) {
       this.data = newValue;
+      this.prefix = newValue.info.prefix;
     },
   },
 };
