@@ -122,7 +122,7 @@ import { mapState } from 'vuex';
 import DeviceInfo from './DeviceInfo.vue';
 import DeivceControl from './DeviceControl.vue';
 
-const moment = require('moment');
+// const moment = require('moment');
 
 export default {
   name: 'DeviceLists',
@@ -157,8 +157,16 @@ export default {
     runtime(millis) {
       const runtime = Number.parseFloat(((millis / 1000) / 60) / 60).toFixed(2);
       const runtimeSplit = runtime.split('.');
-      const format = moment(`${runtimeSplit[0]}${runtimeSplit[1]}`, 'Hmm').format('HH:mm');
-      return format;
+      console.log(runtimeSplit);
+
+      if (Number(runtimeSplit[1]) >= 60) {
+        runtimeSplit[0] = Number(runtimeSplit[0]) + 1;
+        runtimeSplit[1] = Number(runtimeSplit[1] - 60);
+      }
+
+      // const format = moment(`${runtimeSplit[0]}${runtimeSplit[1]}`, 'Hmm').format('HH:mm');
+
+      return `${runtimeSplit[0]}:${runtimeSplit[1]}`;
     },
   },
 };
