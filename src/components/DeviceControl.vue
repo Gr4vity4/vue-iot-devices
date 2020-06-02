@@ -39,7 +39,7 @@
       </div>
       <div class="field">
         <input
-          :value="`${data.info.prefix}${data.d.myName}/$/servo`"
+          :value="`${data.info.prefix}$/servo`"
           class="input"
           type="text"
           placeholder="Destination Topic"
@@ -68,7 +68,7 @@
       </div>
       <div class="field">
         <input
-          :value="`${data.info.prefix}${data.d.myName}/$/neopixel`"
+          :value="`${data.info.prefix}$/neopixel`"
           class="input"
           type="text"
           placeholder="Destination Topic"
@@ -147,7 +147,7 @@ export default {
   watch: {
     deviceInfo(newValue) {
       this.data = newValue;
-      this.prefix = `${newValue.info.prefix}${newValue.d.myName}/$/command`;
+      this.prefix = `${newValue.info.prefix}$/command`;
     },
   },
   methods: {
@@ -156,13 +156,11 @@ export default {
     },
     sliderControl() {
       const { info } = this.data;
-      const { d } = this.data;
-      window.client.publish(`${info.prefix}${d.myName}/$/servo`, String(this.sliderValue));
+      window.client.publish(`${info.prefix}$/servo`, String(this.sliderValue));
     },
     colorPicker() {
       const { info } = this.data;
-      const { d } = this.data;
-      window.client.publish(`${info.prefix}${d.myName}/$/neopixel`, String(JSON.stringify(this.colors.rgba)));
+      window.client.publish(`${info.prefix}$/neopixel`, String(JSON.stringify(this.colors.rgba)));
     },
   },
 };
