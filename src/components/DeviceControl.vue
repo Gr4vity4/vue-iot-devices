@@ -79,6 +79,7 @@
         <photoshop-picker
           v-model="colors"
           value="#3299DC"
+          style="width: 100% !important; margin-top: 20px"
         />
       </div>
       <div class="field">
