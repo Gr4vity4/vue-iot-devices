@@ -80,7 +80,7 @@
                 <p v-text="`heap : ${device.d.heap}`" />
                 <p v-text="`millis : ${device.d.millis}`" />
                 <p v-text="`prefix : ${device.info.prefix}`" />
-                <!-- <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time> -->
+                <p v-text="`runtime : ${runtime(device.d.millis)}`" />
               </div>
             </div>
             <footer
@@ -122,6 +122,8 @@ import { mapState } from 'vuex';
 import DeviceInfo from './DeviceInfo.vue';
 import DeivceControl from './DeviceControl.vue';
 
+const moment = require('moment');
+
 export default {
   name: 'DeviceLists',
   components: {
@@ -151,6 +153,12 @@ export default {
     fetchDeviceControl(device) {
       this.$store.dispatch('deviceInfo', device);
       this.showControlModal = true;
+    },
+    runtime(millis) {
+      const runtime = Number.parseFloat(((millis / 1000) / 60) / 60).toFixed(2);
+      const runtimeSplit = runtime.split('.');
+      const format = moment(`${runtimeSplit[0]}${runtimeSplit[1]}`, 'Hmm').format('HH:mm');
+      return format;
     },
   },
 };

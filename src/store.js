@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import _ from 'lodash';
+import Vue from 'vue';
 
 export default {
   state: {
@@ -23,9 +23,29 @@ export default {
       state.mqttConnected = data;
     },
     devices(state, data) {
-      let lists = state.devices;
-      lists.push(data);
-      lists = _.uniqBy(lists, (device) => device.info.client_id);
+      const lists = state.devices;
+      const clientId = data.info.client_id;
+
+      if (lists.length < 1) {
+        lists.push(data);
+      } else {
+        let duplicate = false;
+        let indexDuplicate = 0;
+
+        lists.forEach((device, index) => {
+          if (device.info.client_id === clientId) {
+            duplicate = true;
+            indexDuplicate = index;
+          }
+        });
+
+        if (duplicate) {
+          Vue.set(state.devices, indexDuplicate, data);
+        } else {
+          lists.push(data);
+        }
+      }
+
       state.devices = lists;
     },
     deviceInfo(state, data) {
