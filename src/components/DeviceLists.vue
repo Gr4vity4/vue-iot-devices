@@ -156,8 +156,8 @@ export default {
     },
     formatRunTime(runtime) {
       const format = runtime.split(':');
-      const h = (format[0]).replace('0', '');
-      const m = (format[1]).replace('0', '');
+      const h = format[0];
+      const m = format[1];
       const txtHour = (h > 1) ? 'hours' : 'hour';
       const txtMinute = (m > 1) ? 'minutes' : 'minute';
 
