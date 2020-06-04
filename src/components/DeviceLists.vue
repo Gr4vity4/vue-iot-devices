@@ -80,7 +80,7 @@
                 <p v-text="`heap : ${device.d.heap}`" />
                 <p v-text="`millis : ${device.d.millis}`" />
                 <p v-text="`prefix : ${device.info.prefix}`" />
-                <p v-text="`runtime : ${runtime(device.d.millis)}`" />
+                <p v-text="`runtime : ${formatRunTime(runtime(device.d.millis))}`" />
               </div>
             </div>
             <footer
@@ -154,17 +154,23 @@ export default {
       this.$store.dispatch('deviceInfo', device);
       this.showControlModal = true;
     },
+    formatRunTime(runtime) {
+      const format = runtime.split(':');
+      const h = format[0];
+      const m = format[1];
+      const txtHour = (h > 1) ? 'hours' : 'hour';
+      const txtMinute = (m > 1) ? 'minutes' : 'minute';
+
+      return `${h} ${txtHour} ${m} ${txtMinute}`;
+    },
     runtime(millis) {
       const runtime = Number.parseFloat(((millis / 1000) / 60) / 60).toFixed(2);
       const runtimeSplit = runtime.split('.');
-      console.log(runtimeSplit);
 
       if (Number(runtimeSplit[1]) >= 60) {
         runtimeSplit[0] = Number(runtimeSplit[0]) + 1;
         runtimeSplit[1] = Number(runtimeSplit[1] - 60);
       }
-
-      // const format = moment(`${runtimeSplit[0]}${runtimeSplit[1]}`, 'Hmm').format('HH:mm');
 
       return `${runtimeSplit[0]}:${runtimeSplit[1]}`;
     },
