@@ -39,7 +39,7 @@
       </div>
       <div class="field">
         <input
-          :value="`${data.info.prefix}$/servo`"
+          :value="servoPrefix"
           class="input"
           type="text"
           placeholder="Destination Topic"
@@ -68,7 +68,7 @@
       </div>
       <div class="field">
         <input
-          :value="`${data.info.prefix}$/neopixel`"
+          :value="neopixelPrefix"
           class="input"
           type="text"
           placeholder="Destination Topic"
@@ -124,6 +124,8 @@ export default {
         },
       },
       prefix: '',
+      servoPrefix: '',
+      neopixelPrefix: '',
       sliderValue: 0,
       sliderOptions: {
         max: 180,
@@ -147,7 +149,9 @@ export default {
   watch: {
     deviceInfo(newValue) {
       this.data = newValue;
-      this.prefix = `${newValue.info.prefix}$/command`;
+      this.prefix = `${newValue.info.prefix}${newValue.d.myName}/$/command`;
+      this.servoPrefix = `${newValue.info.prefix}${newValue.d.myName}$/servo`;
+      this.neopixelPrefix = `${newValue.info.prefix}${newValue.d.myName}$/neopixel`;
     },
   },
   methods: {
